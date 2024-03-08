@@ -1,197 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <title>Food Startup Category</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.30.1/skin-win8-n/ui.fancytree.min.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.fancytree/2.30.1/jquery.fancytree.min.js"></script>
+    <script src="https://cloud.squidex.io/scripts/editor-sdk.js"></script>
 </head>
+
 <body>
-    <h1>Hello Grads 2023</h1>
-    <a href="#bottom">Go Down</a>
-    <a href="https://www.google.com" target="_blank">Google</a>
+    <div>
+        <div id="Food Startup Category"></div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            let field = new SquidexFormField();
+            let params = getQueryParameters();
+            let url = params.url || 'food-startup-category-list.json';
+            let defaultValue = [];
 
-    <h3 class="h3-class">This is an h3</h3>
-    <h3 style="color: green;"title="This is a tooltip">This is another H3</h3>
-
-    <style>
-        #bottom {
-            font-size: 1.2rem;
-        }
-
-        h1 {
-            font-size: 12rem;
-        }
-        .h3-class{
-            color: aqua;
-            font-family: sans-serif;
-        }
-    </style>
-        <script>
-            const printHello= function(){
-                console.log('Hello Grads 2023')
+            function getQueryParameters(str) {
+                return (str || document.location.search).replace(/(^\?)/, '').split("&").map(function (n) {
+                    return n = n.split("="), this[n[0]] = n[1], this;
+                }.bind({}))[0];
             }
-            printHello();
-        </script>
+            
+            var control = $("#Category").fancytree({
+                checkbox: true,
+                selectMode: 3,
+                source: [],
+                select: function (event, data) {
+                    if (data.targetType !== "checkbox")
+                        return;
+                    var ls = data.tree.getSelectedNodes(true).map(x => x.key);
+                    field.valueChanged(ls);
+                }
+            });
+            function initSource(callback) {
+                function initNode(ls, value, folder, key) {
+                    let obj = ls.find(x => x.title === value);
+                    if (!obj) {
+                        obj = {
+                            title: value,
+                            key: `/${key}/`,
+                            folder: folder
+                        };
+                        if (folder) {
+                            obj.children = [];
+                        }
+                        ls.push(obj);
+                    } else {
+                        if (folder && !obj.folder) {
+                            obj.children = [];
+                            obj.folder = true;
+                        }
+                    }
+                    return obj.children;
+                }
+                function ajaxCallback(data) {
+                    var source = [];
+                    $.each(data, function (i, value) {
+                        let ls = (value || "").split('/').filter(x => x);
+                        let children = source;
+                        $.each(ls, function (n, value) {
+                            var key = ls.slice(0, n + 1).join('/');
+                            children = initNode(children, value, (n + 1) < ls.length, key);
+                        });
+                    });
+                    callback(source);
+                }
+                $.get(url, ajaxCallback);
+            }
+            function setSelected(value) {
+                var tree = control.fancytree('getTree');
+                tree.visit(function (node) {
+                    if (value.includes(node.key))
+                        node.setSelected(true);
+                });
+            }
 
-    <link rel="stylesheet" href="mysyles.css">
-
-    <script src="mycriticalcode.js"></script>
-    <script defer src="mycooljs.js"></script> 
-    <!-- Defer specifies that the script is donwloaded in parallel to parsing the page
-    and executed after the page has finished parsing -->
-        <!-- shift option "A" for block comments -->
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <p>sdfghgjgfdsaxdcfgfhj</p>
-    <h2 id="bottom">This is the end</h2>
-    
-    
-    
-    
-
-
-    
-
+            field.onDisabled(function (disabled) {
+                control.fancytree('getTree').enable(!disabled);
+            });
+            field.onValueChanged(function (value) {
+                defaultValue = value || defaultValue;
+                setSelected(defaultValue);
+            });
+            initSource(function (source) {
+                control.fancytree('getTree').reload(source);
+                setSelected(defaultValue);
+            });
+        });
+    </script>
 </body>
+
 </html>
